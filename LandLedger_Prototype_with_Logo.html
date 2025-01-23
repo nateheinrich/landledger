@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandLedger Prototype</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        header {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        header img {
+            max-width: 200px;
+            height: auto;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .step {
+            margin-bottom: 20px;
+        }
+        .step h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .input-group input[type="file"] {
+            padding: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .completed {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="LandLedger_HighRes_Logo.png" alt="LandLedger Logo">
+    </header>
+    <div class="container">
+        <!-- Step 1: Upload Ownership Document -->
+        <div class="step" id="step1">
+            <h2>Step 1: Upload Ownership Document</h2>
+            <div class="input-group">
+                <label for="ownership-doc">Upload Document</label>
+                <input type="file" id="ownership-doc">
+            </div>
+            <button onclick="completeStep(1)">Complete Step 1</button>
+            <div class="completed" id="step1-completed" style="display: none;">Step 1 Complete!</div>
+        </div>
+
+        <!-- Step 2: Enter Land Details -->
+        <div class="step" id="step2">
+            <h2>Step 2: Enter Land Details</h2>
+            <div class="input-group">
+                <label for="land-title">Land Title</label>
+                <input type="text" id="land-title" placeholder="Enter land title">
+            </div>
+            <div class="input-group">
+                <label for="owner-name">Owner Name</label>
+                <input type="text" id="owner-name" placeholder="Enter owner name">
+            </div>
+            <div class="input-group">
+                <label for="parcel-id">Parcel ID</label>
+                <input type="text" id="parcel-id" placeholder="Enter parcel ID">
+            </div>
+            <button onclick="completeStep(2)">Complete Step 2</button>
+            <div class="completed" id="step2-completed" style="display: none;">Step 2 Complete!</div>
+        </div>
+
+        <!-- Step 3: Tokenize Land -->
+        <div class="step" id="step3">
+            <h2>Step 3: Tokenize Land</h2>
+            <button onclick="completeStep(3)">Tokenize Land</button>
+            <div class="completed" id="step3-completed" style="display: none;">Step 3 Complete!</div>
+        </div>
+    </div>
+
+    <script>
+        function completeStep(step) {
+            document.getElementById(`step${step}-completed`).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
