@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Land Tokens</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Land Tokens</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parcel ID</th>
+                    <th>Land Title</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody id="tokens-table">
+                <tr><td colspan="3">Loading tokens...</td></tr>
+            </tbody>
+        </table>
+        <button onclick="window.location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        async function fetchTokens() {
+            try {
+                const response = await fetch("http://127.0.0.1:8080/get-tokens"); // Update this URL when live
+                const data = await response.json();
+
+                let tableBody = document.getElementById("tokens-table");
+                tableBody.innerHTML = "";
+
+                data.tokens.forEach(token => {
+                    let row = `<tr>
+                        <td>${token.parcel_id}</td>
+                        <td>${token.land_title}</td>
+                        <td>${token.owner_name}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error("Error fetching tokens:", error);
+                document.getElementById("tokens-table").innerHTML = "<tr><td colspan='3'>Error loading tokens.</td></tr>";
+            }
+        }
+
+        fetchTokens();
+    </script>
+</body>
+</html>
