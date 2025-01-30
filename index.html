@@ -90,7 +90,7 @@
                 <label for="ownership-doc">Upload Document</label>
                 <input type="file" id="ownership-doc">
             </div>
-            <button onclick="completeStep(1)">Complete Step 1</button>
+            <button onclick="uploadDocument()">Complete Step 1</button>
             <div class="completed" id="step1-completed" style="display: none;">Step 1 Complete!</div>
         </div>
 
@@ -109,15 +109,7 @@
                 <label for="parcel-id">Parcel ID</label>
                 <input type="text" id="parcel-id" placeholder="Enter parcel ID">
             </div>
-            <button onclick="completeStep(2)">Complete Step 2</button>
-            <div class="completed" id="step2-completed" style="display: none;">Step 2 Complete!</div>
-        </div>
-
-        <!-- Step 3: Tokenize Land -->
-        <div class="step" id="step3">
-            <h2>Step 3: Tokenize Land</h2>
-            <button onclick="completeStep(3)">Tokenize Land</button>
-            <div class="completed" id="step3-completed" style="display: none;">Step 3 Complete!</div>
+            <button onclick="tokenizeLand()">Tokenize Land</button>
         </div>
 
         <!-- View My Land Tokens -->
@@ -128,8 +120,40 @@
     </div>
 
     <script>
-        function completeStep(step) {
-            document.getElementById(`step${step}-completed`).style.display = 'block';
+        function uploadDocument() {
+            const fileInput = document.getElementById("ownership-doc").files[0];
+            if (!fileInput) {
+                alert("Please select a document to upload.");
+                return;
+            }
+            let formData = new FormData();
+            formData.append("file", fileInput);
+            fetch("http://127.0.0.1:8080/upload", {
+                method: "POST",
+                body: formData
+            }).then(response => response.json())
+              .then(data => alert(data.message))
+              .catch(error => console.error("Error:", error));
+        }
+
+        function tokenizeLand() {
+            const landTitle = document.getElementById("land-title").value;
+            const ownerName = document.getElementById("owner-name").value;
+            const parcelId = document.getElementById("parcel-id").value;
+            fetch("http://127.0.0.1:8080/tokenize", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    land_title: landTitle,
+                    owner_name: ownerName,
+                    parcel_id: parcelId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => console.error("Error:", error));
         }
     </script>
 </body>
